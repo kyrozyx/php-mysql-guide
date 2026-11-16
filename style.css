@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    /* Makes clicking Section 1, 2, 3... glide smoothly instead of jumping abruptly */
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+    width: 94%;           /* Stretches to 94% of your screen width */
+    max-width: 1600px;    /* Prevents it from getting absurdly wide on ultrawide monitors */
+    margin: 30px auto;
+    padding: 0 20px;
+    line-height: 1.6;
+}
+
+/* Header & Author Byline */
+header {
+    border-bottom: 2px solid #212529;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0 0 5px 0;
+}
+
+.author {
+    margin: 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+/* Simple Plain-Text Table of Contents List */
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 30px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #555555;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+nav a:hover {
+    color: #0d6efd;
+}
+
+/* Individual Sections */
+section {
+    background: #ffffff;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    scroll-margin-top: 20px;
+}
+
+section h2 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Images & Links */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    margin: 15px 0;
+}
+
+a {
+    color: #0d6efd;
+}
+
+/* Download Button */
+.download-btn {
+    display: inline-block;
+    background-color: #0d6efd;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: 500;
+    margin: 10px 0 20px 0;
+}
+
+.download-btn:hover {
+    background-color: #0b5ed7;
+}
+
+/* Code Block + One-Click Copy Button */
+.code-box {
+    position: relative;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    border-radius: 6px;
+    padding: 40px 15px 15px 15px;
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+.code-label {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 0.8rem;
+    color: #9cdcfe;
+    font-family: monospace;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.copy-btn:hover {
+    background: #444;
+}
+
+pre {
+    margin: 0;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 0.9rem;
+}

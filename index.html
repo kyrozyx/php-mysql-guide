@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyroz's Dev Blog</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- BLOG HEADING & AUTHOR -->
+    <header>
+        <h1>PHP Form & Database Operations Guide</h1>
+        <p class="author">Author: <strong>Kyroz</strong> • Step-by-Step PHP + MySQL Tutorial</p>
+    </header>
+
+    <!-- NAVIGATION MENU -->
+    <nav>
+        <a href="#section1">Section 1: Setup php+WAMP</a>
+        <a href="#section2">Section 2: Creating the Form</a>
+    </nav>
+
+    <!-- SECTION 1 -->
+    <section id="section1">
+        <h2>Section 1: Setup php+WAMP</h2>
+
+        <h3>Step 1: Download the Batch File</h3>
+        <p>Download the batch file given below:</p>
+
+        <button onclick="downloadBat()" class="download-btn" style="border:none; cursor:pointer; font-size:1rem;">Download Setup.bat</button>
+        <h3>Step 2: Run the Batch File as Administrator</h3>
+        <ol>
+            <li>Go to your <strong>Downloads</strong> folder, right-click <code>Setup.bat</code>, and select <strong>Run as administrator</strong>.</li>
+            <li>If <strong>Run as administrator</strong> isnt showing click <strong>show more options</strong> below and you can see the administrator option</li>
+            <li>Click <strong>Yes</strong> when Windows asks to allow Administrator privileges.</li>
+            <li>Once the menu opens, enter the option number for installing PHP &wamp; WAMP Server (Option <strong>3</strong>) and wait for the setup to finish.</li>
+            <li>Run <strong>WAMP Server</strong> by double clicking the wamp which has appeared on your desktop (and wait for the WAMP tray icon to turn <strong>green</strong>).</li>
+            <li>Open your browser and type <code>localhost</code> in the address bar to confirm WAMP is active.</li>
+        </ol>
+        <!-- ADD NEXT STEPS BELOW -->
+
+    </section>
+
+
+    <!-- SECTION 2 -->
+    <section id="section2">
+        <h2>Section 2: Creating the Form</h2>
+
+        <h3>Step 1: Create Project Folder &amp; File in <code>www</code></h3>
+        <ol>
+            <li>Go to <code>C:\wamp64\www\</code> and create a new folder named <code>student_app</code>.</li>
+            <li>Inside <code>student_app</code>, create a new file named <code>index.php</code>.</li>
+        </ol>
+
+        <h3>Step 2: Add the HTML Form</h3>
+        <p>Paste the form code below into <code>index.php</code>:</p>
+
+        <div class="code-box">
+            <span class="code-label">index.php</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Student Form&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h2&gt;Student Registration Form&lt;/h2&gt;
+
+    &lt;form method="POST" action=""&gt;
+        &lt;label&gt;Roll No:&lt;/label&gt;
+        &lt;input type="number" name="rollno" required&gt;&lt;br&gt;&lt;br&gt;
+
+        &lt;label&gt;Name:&lt;/label&gt;
+        &lt;input type="text" name="name" required&gt;&lt;br&gt;&lt;br&gt;
+
+        &lt;label&gt;Department:&lt;/label&gt;
+        &lt;input type="text" name="dept" required&gt;&lt;br&gt;&lt;br&gt;
+
+        &lt;button type="submit" name="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <h3>Key Form Parts Explained</h3>
+        <ul>
+            <li><code>&lt;form method="POST" action=""&gt;</code> — Sends the entered data securely via <code>POST</code> to the same page (<code>action=""</code>) so our PHP code at the top can catch it.</li>
+            <li><code>&lt;label&gt;</code> — Displays the text title next to each input box so the user knows what to type.</li>
+            <li><code>type="number"</code> / <code>type="text"</code> — Controls what kind of data the box accepts (numbers only for Roll No, normal text for Name and Department).</li>
+            <li><code>name="rollno"</code> (and <code>name="name"</code>, <code>name="dept"</code>) — The exact variable keys PHP uses to grab the input values later (e.g., <code>$_POST['rollno']</code>).</li>
+            <li><code>required</code> — Stops the form from submitting if a box is left empty.</li>
+            <li><code>&lt;button type="submit" name="submit"&gt;</code> — Triggers the form submission and lets PHP check if the button was clicked using <code>isset($_POST['submit'])</code>.</li>
+        </ul>
+
+
+        <h3>Other Input Options</h3>
+        <p>Aside from standard text and number boxes, forms also use <strong>radio buttons</strong> and <strong>dropdown lists</strong> to give users fixed choices.</p>
+
+        <h4>1. Radio Buttons</h4>
+        <div class="code-box">
+            <span class="code-label">Radio Input</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>&lt;label&gt;Gender:&lt;/label&gt;
+&lt;input type="radio" name="gender" value="Male" required&gt; Male
+&lt;input type="radio" name="gender" value="Female"&gt; Female&lt;br&gt;&lt;br&gt;</code></pre>
+        </div>
+        <ul>
+            <li><code>type="radio"</code> — Lets the user pick only one option from a small group. Both buttons must share the exact same <code>name="gender"</code> so selecting one automatically unselects the other, while <code>value="..."</code> holds the text sent to PHP.</li>
+        </ul>
+
+        <h4>2. Dropdown Menu (Select Box)</h4>
+        <div class="code-box">
+            <span class="code-label">Dropdown Input</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>&lt;label&gt;Course:&lt;/label&gt;
+&lt;select name="course"&gt;
+    &lt;option value="MCA"&gt;MCA&lt;/option&gt;
+    &lt;option value="BCA"&gt;BCA&lt;/option&gt;
+    &lt;option value="BTech"&gt;BTech&lt;/option&gt;
+&lt;/select&gt;&lt;br&gt;&lt;br&gt;</code></pre>
+        </div>
+        <ul>
+            <li><code>&lt;select name="course"&gt;</code> &amp; <code>&lt;option&gt;</code> — Creates a dropdown menu. The <code>name</code> goes on the outer <code>&lt;select&gt;</code> tag, and the selected <code>&lt;option value="..."&gt;</code> is what PHP receives.</li>
+        </ul>
+
+        <p><strong>Task:</strong> Add both the radio buttons and dropdown snippet inside the <code>&lt;form&gt;</code> tags of your <code>index.php</code> file right above the Submit button, then refresh <code>localhost</code> to test them.</p>
+
+
+
+        <h3>Step 3: Open in Browser</h3>
+        <p>Open your browser and go to <code>http://localhost/your_folder_name/index.php</code> to check the form.</p>
+        <img src="assets/images/form-output.png" alt="Student Registration Form Output">
+    </section>
+
+
+    <!-- SCRIPTS (DOWNLOAD + ONE-CLICK COPY) -->
+    <script>
+        function downloadBat() {
+            fetch('assets/files/Setup.bat')
+                .then(res => res.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Setup.bat';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                });
+        }
+
+        function copyCode(button) {
+            const codeText = button.parentElement.querySelector('code').innerText;
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeText).then(() => showCopied(button));
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = codeText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showCopied(button);
+            }
+        }
+
+        function showCopied(button) {
+            button.innerText = "Copied!";
+            setTimeout(() => {
+                button.innerText = "Copy";
+            }, 2000);
+        }
+    </script>
+
+</body>
+</html>
