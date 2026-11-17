@@ -218,6 +218,124 @@ if (isset($_POST['submit'])) {
     </ol>
 </section>
 
+
+    <!-- SECTION 5 -->
+<section id="section5">
+    <h2>Section 5: Searching &amp; Displaying Records</h2>
+
+    <h3>Step 1: Create the Search Form (<code>search.php</code>)</h3>
+    <p>Create a new file named <code>search.php</code> inside your project folder and add a simple form with a <strong>Roll No</strong> input and a <strong>Search</strong> button:</p>
+
+    <div class="code-box">
+        <span class="code-label">search.php</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Search Student&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h2&gt;Search Student Record&lt;/h2&gt;
+
+    &lt;form method="POST" action=""&gt;
+        &lt;label&gt;Roll No:&lt;/label&gt;
+        &lt;input type="number" name="rollno" required&gt;
+        &lt;button type="submit" name="search"&gt;Search&lt;/button&gt;
+    &lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+    <h3>Step 2: Connect to Database &amp; Display Results in a Table</h3>
+    <p>Add the PHP code below after the closing <code>&lt;/html&gt;</code> tag in <code>search.php</code> to connect to <code>college_db</code>, search for the entered roll number, and print the matching record in an HTML table:</p>
+
+    <div class="code-box">
+        <span class="code-label">search.php (Add below &lt;/html&gt;)</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>&lt;?php
+if (isset($_POST['search'])) {
+    extract($_POST);
+    $con = mysqli_connect("localhost", "root", "", "college_db");
+    $sql = "SELECT * FROM students WHERE rollno='$rollno'";
+    $q = mysqli_query($con, $sql);
+    if (mysqli_num_rows($q) &gt; 0) {
+        ?&gt;
+        &lt;table border="1" cellpadding="8"&gt;
+            &lt;tr&gt;
+                &lt;th&gt;Roll No&lt;/th&gt;
+                &lt;th&gt;Name&lt;/th&gt;
+                &lt;th&gt;Department&lt;/th&gt;
+                &lt;th&gt;Gender&lt;/th&gt;
+                &lt;th&gt;Course&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;?php
+        while ($r = mysqli_fetch_array($q)) {
+            ?&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&lt;?php echo $r['rollno']; ?&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;?php echo $r['name']; ?&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;?php echo $r['dept']; ?&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;?php echo $r['gender']; ?&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;?php echo $r['course']; ?&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;?php
+        }
+        ?&gt;
+        &lt;/table&gt;
+        &lt;?php
+    } else {
+        echo "Not found";
+    }
+}
+?&gt;</code></pre>
+    </div>
+
+    <h3>How the Table &amp; Search Logic Work</h3>
+    <ul>
+        <li><code>$con = mysqli_connect(...)</code> — Opens a fresh connection to <code>college_db</code> because each PHP page runs independently on the server.</li>
+        <li><code>SELECT * FROM students WHERE rollno='$rollno'</code> — Queries the <code>students</code> table for rows matching the submitted roll number.</li>
+        <li><code>if (mysqli_num_rows($q) &gt; 0)</code> — Checks if at least one matching row exists before rendering the HTML table; otherwise, it prints <code>Not found</code>.</li>
+        <li><strong>Closing &amp; Reopening PHP Tags (<code>?&gt; ... &lt;?php</code>):</strong> Temporarily exits PHP mode so standard HTML table tags can be written cleanly without wrapping everything in <code>echo</code> statements.</li>
+        <li><code>&lt;table border="1" cellpadding="8"&gt;</code> — Creates the table structure; <code>border="1"</code> draws visible grid lines around cells, and <code>cellpadding="8"</code> adds 8px of breathing room inside each cell so text doesn't touch the borders.</li>
+        <li><code>&lt;tr&gt;</code>, <code>&lt;th&gt;</code>, and <code>&lt;td&gt;</code> — <code>&lt;tr&gt;</code> defines a table row, <code>&lt;th&gt;</code> creates bold, centered header cells for column titles (printed once before the loop), and <code>&lt;td&gt;</code> holds the actual student data cells inside each row.</li>
+        <li><code>while ($r = mysqli_fetch_array($q))</code> — Fetches each matching row into <code>$r</code> and generates a new <code>&lt;tr&gt;</code> row, printing column values like <code>$r['name']</code> inside each <code>&lt;td&gt;</code> cell.</li>
+    </ul>
+
+    <div style="background: #f4f6f8; border-left: 4px solid #007bff; padding: 12px 16px; margin: 16px 0; border-radius: 4px;">
+        <strong>Exam Tip — Displaying Specific Columns Only:</strong>
+        <p style="margin: 8px 0;">If the lab exam only asks to display specific columns (for example, <strong>Name</strong> and <strong>Department</strong> only), just keep those <code>&lt;th&gt;</code> headers and <code>&lt;td&gt;</code> cells in your table:</p>
+
+        <div class="code-box" style="margin: 8px 0 0 0;">
+            <span class="code-label">Specific Columns Example</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>&lt;table border="1" cellpadding="8"&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Name&lt;/th&gt;
+        &lt;th&gt;Department&lt;/th&gt;
+    &lt;/tr&gt;
+&lt;?php
+while ($r = mysqli_fetch_array($q)) {
+    ?&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&lt;?php echo $r['name']; ?&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $r['dept']; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;?php
+}
+?&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+    </div>
+
+    <h3>Step 3: Test in Browser</h3>
+    <ol>
+        <li>Open your browser and go to <code>http://localhost/phpcode/search.php</code>.</li>
+        <li>Enter a <strong>Roll No</strong> you registered earlier and press <strong>Search</strong>—the student's record will appear in the table below.</li>
+        <li>Try entering a roll number that isn't in the database to verify that it displays <strong>Not found</strong>.</li>
+    </ol>
+</section>
+</section>
+
     <!-- SCRIPTS (DOWNLOAD + ONE-CLICK COPY) -->
     <script>
         function downloadBat() {
