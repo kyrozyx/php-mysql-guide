@@ -10,14 +10,16 @@
 
     <!-- BLOG HEADING & AUTHOR -->
     <header>
-        <h1>PHP Form & Database Operations Guide</h1>
-        <p class="author">Author: <strong>Kyroz</strong> • Step-by-Step PHP + MySQL Tutorial</p>
+        <h1>PHP Form &amp; Database Operations Guide</h1>
+        <p class="author">Author: <strong>Kyroz</strong> | Step-by-Step PHP + MySQL Tutorial</p>
     </header>
 
     <!-- NAVIGATION MENU -->
     <nav>
         <a href="#section1">Section 1: Setup php+WAMP</a>
         <a href="#section2">Section 2: Creating the Form</a>
+        <a href="#section3">Section 3: Creating the Database Table</a>
+        <a href="#section4">Section 4: Connecting Database &amp; Inserting Data</a>
     </nav>
 
     <!-- SECTION 1 -->
@@ -28,19 +30,17 @@
         <p>Download the batch file given below:</p>
 
         <button onclick="downloadBat()" class="download-btn" style="border:none; cursor:pointer; font-size:1rem;">Download Setup.bat</button>
+
         <h3>Step 2: Run the Batch File as Administrator</h3>
         <ol>
             <li>Go to your <strong>Downloads</strong> folder, right-click <code>Setup.bat</code>, and select <strong>Run as administrator</strong>.</li>
-            <li>If <strong>Run as administrator</strong> isnt showing click <strong>show more options</strong> below and you can see the administrator option</li>
+            <li>If <strong>Run as administrator</strong> isn't showing, click <strong>Show more options</strong> below and you can see the administrator option.</li>
             <li>Click <strong>Yes</strong> when Windows asks to allow Administrator privileges.</li>
-            <li>Once the menu opens, enter the option number for installing PHP &wamp; WAMP Server (Option <strong>3</strong>) and wait for the setup to finish.</li>
-            <li>Run <strong>WAMP Server</strong> by double clicking the wamp which has appeared on your desktop (and wait for the WAMP tray icon to turn <strong>green</strong>).</li>
+            <li>Once the menu opens, enter the option number for installing PHP &amp; WAMP Server (Option <strong>3</strong>) and wait for the setup to finish.</li>
+            <li>Run <strong>WAMP Server</strong> by double-clicking the WAMP icon on your desktop and wait for the tray icon to turn <strong>green</strong>.</li>
             <li>Open your browser and type <code>localhost</code> in the address bar to confirm WAMP is active.</li>
         </ol>
-        <!-- ADD NEXT STEPS BELOW -->
-
     </section>
-
 
     <!-- SECTION 2 -->
     <section id="section2">
@@ -93,7 +93,6 @@
             <li><code>&lt;button type="submit" name="submit"&gt;</code> — Triggers the form submission and lets PHP check if the button was clicked using <code>isset($_POST['submit'])</code>.</li>
         </ul>
 
-
         <h3>Other Input Options</h3>
         <p>Aside from standard text and number boxes, forms also use <strong>radio buttons</strong> and <strong>dropdown lists</strong> to give users fixed choices.</p>
 
@@ -126,13 +125,92 @@
 
         <p><strong>Task:</strong> Add both the radio buttons and dropdown snippet inside the <code>&lt;form&gt;</code> tags of your <code>index.php</code> file right above the Submit button, then refresh <code>localhost</code> to test them.</p>
 
-
-
         <h3>Step 3: Open in Browser</h3>
-        <p>Open your browser and go to <code>http://localhost/your_folder_name/index.php</code> to check the form.</p>
+        <p>Open your browser and go to <code>http://localhost/student_app/index.php</code> to check the form.</p>
         <img src="assets/images/form-output.png" alt="Student Registration Form Output">
     </section>
 
+    <!-- SECTION 3 -->
+    <section id="section3">
+        <h2>Section 3: Creating the Database Table</h2>
+
+        <h3>Step 1: Open phpMyAdmin</h3>
+        <ol>
+            <li>Open your browser and type <code>localhost</code> in the address bar, then press <strong>Enter</strong>.</li>
+            <li>
+                Under the <strong>Your Aliases</strong> section on the WAMP dashboard, click <strong>phpMyAdmin 5.2.3</strong>.<br>
+                <img src="assets/images/youraliases.png" alt="Click phpMyAdmin 5.2.3 under Your Aliases">
+            </li>
+            <li>
+                On the phpMyAdmin login screen, type <code>root</code> in the <strong>Username</strong> field, leave the <strong>Password</strong> box completely empty, and click <strong>Log in</strong>.<br>
+                <img src="assets/images/phplogin.png" alt="phpMyAdmin login screen with root username">
+            </li>
+        </ol>
+        <!-- ADD NEXT STEPS BELOW -->
+
+    </section>
+
+    <!-- SECTION 4 -->
+<section id="section4">
+    <h2>Section 4: Connecting Database &amp; Inserting Data</h2>
+
+    <h3>Step 1: Add the PHP Connection &amp; Insert Code</h3>
+    <p>Open <code>index.php</code> inside <code>C:\wamp64\www\student_app\</code> and paste the PHP code below right after the closing <code>&lt;/html&gt;</code> tag:</p>
+
+    <div class="code-box">
+        <span class="code-label">index.php (Add below &lt;/html&gt;)</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>&lt;?php
+if (isset($_POST['submit'])) {
+    extract($_POST);
+    $con = mysqli_connect("localhost", "root", "", "college_db");
+    $sql = "INSERT INTO students (rollno, name, dept, gender, course) VALUES ('$rollno', '$name', '$dept', '$gender', '$course')";
+    $q = mysqli_query($con, $sql);
+    if ($q) {
+        ?&gt;
+        &lt;script&gt;
+            alert("Success");
+        &lt;/script&gt;
+        &lt;?php
+    } else {
+        ?&gt;
+        &lt;script&gt;
+            alert("Something went wrong");
+        &lt;/script&gt;
+        &lt;?php
+    }
+}
+?&gt;</code></pre>
+    </div>
+
+    <h3>Key PHP &amp; MySQL Parts Explained</h3>
+    <ul>
+        <li><code>if (isset($_POST['submit']))</code> — Checks if the <strong>Submit</strong> button was clicked so the database code only runs on form submission.</li>
+        <li><code>extract($_POST);</code> — Automatically converts all submitted form inputs (<code>name="rollno"</code>, <code>name="name"</code>, <code>name="dept"</code>, <code>name="gender"</code>, <code>name="course"</code>) into matching PHP variables (<code>$rollno</code>, <code>$name</code>, etc.).</li>
+        <li><code>mysqli_connect("localhost", "root", "", "college_db")</code> — Connects PHP to your MySQL database (<code>college_db</code>) using the default WAMP username (<code>root</code>) and empty password (<code>""</code>).</li>
+        <li><code>INSERT INTO students (...) VALUES (...)</code> — Inserts a new student record into the <code>students</code> table (skipping <code>id</code> since <code>AUTO_INCREMENT</code> generates it automatically).</li>
+        <li><code>$q = mysqli_query($con, $sql);</code> — Runs the SQL query against the connection <code>$con</code>. If the database connection fails or the query has an error, <code>$q</code> returns <code>false</code>; if both succeed, <code>$q</code> returns <code>true</code>.</li>
+        <li><code>if ($q) { ... } else { ... }</code> — Checks whether the connection and insertion succeeded. Notice how <code>?&gt;</code> temporarily closes PHP so standard HTML <code>&lt;script&gt;alert("Success");&lt;/script&gt;</code> can pop up a browser alert, then <code>&lt;?php</code> reopens PHP for the <code>else</code> block (which pops up <code>"Something went wrong"</code> if it failed).</li>
+    </ul>
+
+    <div style="background: #f4f6f8; border-left: 4px solid #007bff; padding: 12px 16px; margin: 16px 0; border-radius: 4px;">
+            <strong>Pro Tip — Skip Typing the SQL Query Manually:</strong>
+            <ol style="margin: 8px 0 0 20px;">
+                <li>Open your <code>students</code> table in <strong>phpMyAdmin</strong> and click the <strong>Insert</strong> tab at the top.</li>
+                <li>Scroll down and click <strong>Preview SQL</strong> at the bottom.</li>
+                <img src="assets/images/previewsql.png" alt="Where to find Preview SQL in phpMyAdmin Insert tab" style="margin-top: 8px;">
+                <img src="assets/images/preview-sql-popup.png" alt="Generated SQL query popup in phpMyAdmin" style="margin-bottom: 8px;"><br>
+                <li>Copy the generated <code>INSERT INTO ...</code> query, paste it into your <code>$sql = "...";</code> string in VS Code, and replace the empty quotes with your PHP variables (<code>'$rollno'</code>, <code>'$name'</code>, etc.) in order.</li>
+            </ol>
+        </div>
+
+    <h3>Step 2: Test &amp; Verify in phpMyAdmin</h3>
+    <ol>
+        <li>Open <code>http://localhost/student_app/index.php</code> in your browser, fill out the form, and click <strong>Submit</strong>.</li>
+        <li>Click <strong>OK</strong> on the <strong>Success</strong> popup alert.</li>
+        <li>Open <strong>phpMyAdmin</strong>, go to <code>college_db</code> &rarr; <code>students</code>, and click the <strong>Browse</strong> tab to confirm your new record is saved.</li>
+    </ol>
+</section>
 
     <!-- SCRIPTS (DOWNLOAD + ONE-CLICK COPY) -->
     <script>
